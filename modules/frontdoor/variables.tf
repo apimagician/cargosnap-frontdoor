@@ -13,7 +13,7 @@ variable "location" {
   type        = string
 }
 
-variable "backend_host" {
+variable "frontdoor" {
   description = "The backend host for Front Door."
-  type        = string
+  type        = any
 }

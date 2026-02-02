@@ -34,16 +34,16 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Init
-        working-directory: infra
+        working-directory: .
         run: terraform init
 
       - name: Terraform Plan
-        working-directory: infra
+        working-directory: .
         run: terraform plan -var-file=vars/development.tfvars -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        working-directory: infra
+        working-directory: .
         run: terraform apply -auto-approve tfplan
 
   acceptance:
@@ -74,16 +74,16 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Init
-        working-directory: infra
+        working-directory: .
         run: terraform init
 
       - name: Terraform Plan
-        working-directory: infra
+        working-directory: .
         run: terraform plan -var-file=vars/acceptance.tfvars -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        working-directory: infra
+        working-directory: .
         run: terraform apply -auto-approve tfplan
 
   production:
@@ -114,14 +114,14 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Init
-        working-directory: infra
+        working-directory: .
         run: terraform init
 
       - name: Terraform Plan
-        working-directory: infra
+        working-directory: .
         run: terraform plan -var-file=vars/production.tfvars -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        working-directory: infra
+        working-directory: .
         run: terraform apply -auto-approve tfplan

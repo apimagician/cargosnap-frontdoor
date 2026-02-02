@@ -13,8 +13,9 @@ provider "azurerm" {
 
 module "frontdoor" {
   source              = "./modules/frontdoor"
+
+  frontdoor           = var.frontdoor
   name                = var.frontdoor_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  backend_host        = var.backend_host
 }
