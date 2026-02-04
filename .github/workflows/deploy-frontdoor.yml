@@ -27,11 +27,6 @@ jobs:
 
       - name: Azure Login
         uses: azure/login@v2
-        # Required GitHub Secrets:
-        # - AZURE_CLIENT_ID: Azure service principal client ID.
-        # - AZURE_TENANT_ID: Azure Active Directory tenant ID.
-        # - AZURE_SUBSCRIPTION_ID: Azure subscription ID.
-        # These secrets must be configured in the repository's GitHub Actions secrets.
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
