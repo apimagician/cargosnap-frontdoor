@@ -25,4 +25,6 @@ module "frontdoor" {
   name                = var.frontdoor_name
   resource_group_name = module.resource_group.resource_group_name
   location            = var.location
+
+  depends_on = [ module.resource_group ]
 }
