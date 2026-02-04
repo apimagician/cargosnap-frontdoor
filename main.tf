@@ -14,17 +14,17 @@ provider "azurerm" {
 module "resource_group" {
   source = "./modules/resource_group"
 
-  resource_group_name     = var.resource_group_name
-  location = var.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
 }
 
 module "frontdoor" {
-  source              = "./modules/frontdoor"
+  source = "./modules/frontdoor"
 
   frontdoor           = var.frontdoor
   name                = var.frontdoor_name
   resource_group_name = module.resource_group.resource_group_name
   location            = var.location
 
-  depends_on = [ module.resource_group ]
+  depends_on = [module.resource_group]
 }

@@ -3,10 +3,10 @@ resource "azurerm_frontdoor" "this" {
   resource_group_name = var.resource_group_name
 
   frontend_endpoint {
-    name                              = var.frontdoor.frontend_endpoint_name
-    host_name                         = var.frontdoor.frontend_host_name
-    session_affinity_enabled          = var.frontdoor.session_affinity_enabled
-    session_affinity_ttl_seconds      = var.frontdoor.session_affinity_ttl_seconds
+    name                                    = var.frontdoor.frontend_endpoint_name
+    host_name                               = var.frontdoor.frontend_host_name
+    session_affinity_enabled                = var.frontdoor.session_affinity_enabled
+    session_affinity_ttl_seconds            = var.frontdoor.session_affinity_ttl_seconds
     web_application_firewall_policy_link_id = var.frontdoor.web_application_firewall_policy_link_id
   }
 
@@ -38,7 +38,7 @@ resource "azurerm_frontdoor" "this" {
   backend_pool_load_balancing {
     name                            = var.frontdoor.load_balancing_name
     sample_size                     = var.frontdoor.load_balancing_sample_size
-    successful_samples_required      = var.frontdoor.load_balancing_successful_samples_required
+    successful_samples_required     = var.frontdoor.load_balancing_successful_samples_required
     additional_latency_milliseconds = var.frontdoor.load_balancing_additional_latency_milliseconds
   }
 
