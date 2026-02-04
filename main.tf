@@ -23,6 +23,6 @@ module "frontdoor" {
 
   frontdoor           = var.frontdoor
   name                = var.frontdoor_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = module.resource_group.resource_group_name
   location            = var.location
 }
