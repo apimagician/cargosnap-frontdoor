@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.0.0"
+      version = ">= 3.80.0"
     }
   }
 }
@@ -24,8 +24,8 @@ module "resource_group" {
 module "frontdoor" {
   source = "./modules/frontdoor"
 
+  name = var.frontdoor.profile_name
   frontdoor           = var.frontdoor
-  name                = var.frontdoor_name
   resource_group_name = module.resource_group.resource_group_name
   location            = var.location
 

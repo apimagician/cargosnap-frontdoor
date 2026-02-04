@@ -1,55 +1,61 @@
-resource "azurerm_frontdoor" "this" {
-  name                = var.name
+# Front Door Standard profile
+resource "azurerm_cdn_frontdoor_profile" "this" {
+  name                = var.frontdoor.profile_name
   resource_group_name = var.resource_group_name
+  sku_name            = var.frontdoor.sku_name
+}
 
-  frontend_endpoint {
-    name                                    = var.frontdoor.frontend_endpoint_name
-    host_name                               = var.frontdoor.frontend_host_name
-    session_affinity_enabled                = var.frontdoor.session_affinity_enabled
-    session_affinity_ttl_seconds            = var.frontdoor.session_affinity_ttl_seconds
-    web_application_firewall_policy_link_id = var.frontdoor.web_application_firewall_policy_link_id
+# Endpoint
+resource "azurerm_cdn_frontdoor_endpoint" "this" {
+  name                     = var.frontdoor.endpoint_name
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
+}
+
+# Origin group (backend pool)
+resource "azurerm_cdn_frontdoor_origin_group" "this" {
+  name                     = var.frontdoor.origin_group_name
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
+
+  load_balancing {
+    sample_size                        = var.frontdoor.load_balancing_sample_size
+    successful_samples_required        = var.frontdoor.load_balancing_successful_samples_required
+    additional_latency_in_milliseconds = var.frontdoor.load_balancing_additional_latency_in_milliseconds
   }
 
-  backend_pool {
-    name = var.frontdoor.backend.pool_name
-
-    backend {
-      host_header = var.frontdoor.backend.host
-      address     = var.frontdoor.backend.host
-      http_port   = var.frontdoor.backend.http_port
-      https_port  = var.frontdoor.backend.https_port
-      enabled     = var.frontdoor.backend.enabled
-      weight      = var.frontdoor.backend.weight
-      priority    = var.frontdoor.backend.priority
-    }
-
-    load_balancing_name = var.frontdoor.load_balancing_name
-    health_probe_name   = var.frontdoor.health_probe_name
-  }
-
-  backend_pool_health_probe {
-    name                = var.frontdoor.health_probe_name
-    protocol            = var.frontdoor.health_probe_protocol
+  health_probe {
     path                = var.frontdoor.health_probe_path
+    protocol            = var.frontdoor.health_probe_protocol
+    request_type        = var.frontdoor.health_probe_request_type
     interval_in_seconds = var.frontdoor.health_probe_interval_in_seconds
-    probe_method        = var.frontdoor.health_probe_probe_method
   }
+}
 
-  backend_pool_load_balancing {
-    name                            = var.frontdoor.load_balancing_name
-    sample_size                     = var.frontdoor.load_balancing_sample_size
-    successful_samples_required     = var.frontdoor.load_balancing_successful_samples_required
-    additional_latency_milliseconds = var.frontdoor.load_balancing_additional_latency_milliseconds
-  }
+# Enkele origin (jouw web URL)
+resource "azurerm_cdn_frontdoor_origin" "this" {
+  name                          = var.frontdoor.origin_name
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.this.id
 
-  routing_rule {
-    name               = var.frontdoor.routing_rule_name
-    accepted_protocols = var.frontdoor.routing_rule_accepted_protocols
-    patterns_to_match  = var.frontdoor.routing_rule_patterns_to_match
-    frontend_endpoints = [var.frontdoor.frontend_endpoint_name]
-    forwarding_configuration {
-      forwarding_protocol = var.frontdoor.routing_rule_forwarding_protocol
-      backend_pool_name   = var.frontdoor.backend.pool_name
-    }
-  }
+  host_name                        = var.frontdoor.backend_host_name
+  http_port                        = var.frontdoor.backend_http_port
+  https_port                       = var.frontdoor.backend_https_port
+  origin_host_header               = coalesce(var.frontdoor.origin_host_header, var.frontdoor.backend_host_name)
+  priority                         = var.frontdoor.origin_priority
+  weight                           = var.frontdoor.origin_weight
+  enabled                          = var.frontdoor.origin_enabled
+  certificate_name_check_enabled   = var.frontdoor.certificate_name_check_enabled
+}
+
+# Route (alles naar je backend, HTTPS‑only)
+resource "azurerm_cdn_frontdoor_route" "this" {
+  name                          = var.frontdoor.route_name
+  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.this.id
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.this.id
+  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.this.id]
+
+  supported_protocols      = var.frontdoor.route_supported_protocols
+  patterns_to_match        = var.frontdoor.route_patterns_to_match
+  forwarding_protocol      = var.frontdoor.route_forwarding_protocol
+  https_redirect_enabled   = var.frontdoor.route_https_redirect_enabled
+  link_to_default_domain   = var.frontdoor.route_link_to_default_domain
+  enabled                  = var.frontdoor.route_enabled
 }
