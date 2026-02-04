@@ -1,6 +1,6 @@
 resource "azurerm_frontdoor" "this" {
   name                = var.name
-  resource_group_name = module.resource_group.resource_group_name
+  resource_group_name = var.resource_group_name
 
   frontend_endpoint {
     name                              = var.frontdoor.frontend_endpoint_name
