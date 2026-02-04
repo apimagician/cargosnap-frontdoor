@@ -1,3 +1,8 @@
+azure = {
+  subscription_id = "0db6d0e6-4adb-4eb0-81fc-ae50560671b8"
+  tenant_id       = "c523adee-626c-48b7-b057-b12f85566361"
+}
+
 frontdoor_name      = "cargosnap-dev-frontdoor"
 resource_group_name = "cargosnap-dev-rg"
 location            = "westeurope"
