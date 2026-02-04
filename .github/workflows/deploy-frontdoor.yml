@@ -4,6 +4,8 @@ name: Deploy Azure Front Door with Terraform
 on:
   push:
     paths:
+      - 'vars/**'
+      - '*.tf'
       - '.github/workflows/deploy-frontdoor.yml'
     branches:
       - main
