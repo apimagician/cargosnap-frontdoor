@@ -59,3 +59,15 @@ resource "azurerm_cdn_frontdoor_route" "this" {
   link_to_default_domain   = var.frontdoor.route_link_to_default_domain
   enabled                  = var.frontdoor.route_enabled
 }
+
+# Create secret for custom domain HTTPS
+resource "azurerm_cdn_frontdoor_secret" "this" {
+  name                     = var.frontdoor.secret_name
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
+
+  secret {
+    customer_certificate {
+      key_vault_certificate_id = var.frontdoor.sercret_id
+    }
+  }
+}
