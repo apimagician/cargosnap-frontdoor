@@ -36,5 +36,6 @@ frontdoor = {
   route_https_redirect_enabled                 = true
   route_link_to_default_domain                 = true
   route_enabled                                = true
-  secret_id                                    = "https://cargnosnap-kv.vault.azure.net/certificates/bitscloud"
+  secret_name                                  = "cargosnap-frontdoor-dev-secret"
+  secret_id                                    = "https://kv-cargosnap-bitscloud.vault.azure.net/certificates/bitscloud"
 }

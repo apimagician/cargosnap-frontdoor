@@ -48,5 +48,7 @@ variable "frontdoor" {
     route_https_redirect_enabled                 = bool
     route_link_to_default_domain                 = bool
     route_enabled                                = bool
+    secret_name                                  = string
+    secret_id                                    = string
   })
 }

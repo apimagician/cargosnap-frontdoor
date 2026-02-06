@@ -3,6 +3,10 @@ resource "azurerm_cdn_frontdoor_profile" "this" {
   name                = var.frontdoor.profile_name
   resource_group_name = var.resource_group_name
   sku_name            = var.frontdoor.sku_name
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 # Endpoint
@@ -67,7 +71,9 @@ resource "azurerm_cdn_frontdoor_secret" "this" {
 
   secret {
     customer_certificate {
-      key_vault_certificate_id = var.frontdoor.sercret_id
+      key_vault_certificate_id = var.frontdoor.secret_id
     }
   }
+
+  depends_on = [ azurerm_cdn_frontdoor_endpoint.this ]
 }
