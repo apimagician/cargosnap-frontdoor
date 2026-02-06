@@ -5,7 +5,8 @@ resource "azurerm_cdn_frontdoor_profile" "this" {
   sku_name            = var.frontdoor.sku_name
 
   identity {
-    type = "SystemAssigned"
+    type = var.frontdoor.identity_type
+    identity_ids = var.frontdoor.identity_ids
   }
 }
 

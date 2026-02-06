@@ -3,12 +3,12 @@ azure = {
   tenant_id       = "c523adee-626c-48b7-b057-b12f85566361"
 }
 
-resource_group_name = "example-resource-group"
+resource_group_name = "cargosnap-frontdoor-dev-rg"
 location            = "westeurope"
 
 frontdoor = {
   profile_name                                 = "cargosnap-frontdoor-dev"
-  resource_group_name                          = "example-resource-group"
+  resource_group_name                          = "cargosnap-frontdoor-dev-rg"
   location                                     = "westeurope"
   sku_name                                     = "Standard_AzureFrontDoor"
   endpoint_name                                = "frontend-endpoint"
@@ -38,4 +38,6 @@ frontdoor = {
   route_enabled                                = true
   secret_name                                  = "cargosnap-frontdoor-dev-secret"
   secret_id                                    = "https://kv-cargosnap-bitscloud.vault.azure.net/certificates/bitscloud"
+  identity_type                                = "UserAssigned"
+  identity_ids                                 = ["/subscriptions/0db6d0e6-4adb-4eb0-81fc-ae50560671b8/resourceGroups/rg-keyvault-frontdoor/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-assigned-frontdoor"]
 }

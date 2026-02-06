@@ -50,5 +50,7 @@ variable "frontdoor" {
     route_enabled                                = bool
     secret_name                                  = string
     secret_id                                    = string
+    identity_type                                = string
+    identity_ids                                 = list(string)
   })
 }
