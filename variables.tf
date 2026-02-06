@@ -52,5 +52,7 @@ variable "frontdoor" {
     secret_id                                    = string
     identity_type                                = string
     identity_ids                                 = list(string)
+    certificate_type                                = string
+    custom_host_name                              = string
   })
 }

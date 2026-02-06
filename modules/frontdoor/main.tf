@@ -78,3 +78,18 @@ resource "azurerm_cdn_frontdoor_secret" "this" {
 
   depends_on = [ azurerm_cdn_frontdoor_endpoint.this ]
 }
+
+# Create custom domain HTTPS configuration
+resource "azurerm_cdn_frontdoor_custom_domain" "this" {
+  name                     = "${replace(var.frontdoor.custom_host_name, ".", "-")}-custom-domain"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.this.id
+
+  host_name = var.frontdoor.custom_host_name
+
+  tls {
+    certificate_type = var.frontdoor.certificate_type
+    cdn_frontdoor_secret_id = azurerm_cdn_frontdoor_secret.this.id
+  }
+
+  depends_on = [ azurerm_cdn_frontdoor_secret.this ]
+}

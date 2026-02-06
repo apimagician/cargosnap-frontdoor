@@ -40,4 +40,6 @@ frontdoor = {
   secret_id                                    = "https://kv-cargosnap-bitscloud.vault.azure.net/certificates/bitscloud"
   identity_type                                = "UserAssigned"
   identity_ids                                 = ["/subscriptions/0db6d0e6-4adb-4eb0-81fc-ae50560671b8/resourceGroups/rg-keyvault-frontdoor/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-assigned-frontdoor"]
+  certificate_type                                = "CustomerCertificate"
+  custom_host_name                                = "dev.bitscloud.nl"
 }
